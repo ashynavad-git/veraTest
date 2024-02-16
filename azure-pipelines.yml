@@ -29,7 +29,7 @@ steps:
      version: '$(build.buildNumber)'
 # #    filepath: '$(System.DefaultWorkingDirectory)'
      filepath: 'app/target/verademo.war'
-     optargs: '-autoscan false,-scanallnonfataltoplevelmodules true' 
+     optargs: '-autoscan false -scanallnonfataltoplevelmodules true' 
      createProfile: true
      importResults: true
      failBuildIfUploadAndScanBuildStepFails: false
