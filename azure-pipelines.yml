@@ -40,7 +40,7 @@ steps:
       ConnectionDetailsSelection: Credentials
       apiId: $(VERACODE_API_ID)
       apiKey: $(VERACODE_API_KEY)
-      veracodeAppProfile: $(system.teamProject)'
+      veracodeAppProfile: 'Azure_vera integration'
       version: $(build.buildNumber)
       filepath: 'app/target/verademo.war'
       sandboxName: security_sandbox
