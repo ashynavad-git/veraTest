@@ -21,19 +21,41 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
     
+# - task: Veracode@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: '$(system.teamProject)'
+#     version: '$(build.buildNumber)'
+#     filepath: 'app/target/verademo.war'
+#     optargs: '-autoscan false -scanallnonfataltoplevelmodules true'
+#     createProfile: true
+#     failBuildIfUploadAndScanBuildStepFails: true
+#     importResults: true
+#     failBuildOnPolicyFail: true
+#     maximumWaitTime: '60'
+
 - task: Veracode@3
   inputs:
-     ConnectionDetailsSelection: 'Service Connection'
-     AnalysisService: 'vera_Azure'
-     veracodeAppProfile: '$(system.teamProject)'
-     version: '$(build.buildNumber)'
-# #    filepath: '$(System.DefaultWorkingDirectory)'
-     filepath: 'app/target/verademo.war'
-     optargs: '-autoscan false -scanallnonfataltoplevelmodules true' 
-     createProfile: true
-     importResults: true
-     failBuildIfUploadAndScanBuildStepFails: false
-     maximumWaitTime: '60'
+      ConnectionDetailsSelection: Credentials
+      apiId: $(VERACODE_API_ID)
+      apiKey: $(VERACODE_API_KEY)
+      veracodeAppProfile: $(system.teamProject)'
+      version: $(build.buildNumber)
+      filepath: 'app/target/verademo.war'
+      sandboxName: security_sandbox
+      createSandBox: true
+      # createProfile: true
+      failBuildIfUploadAndScanBuildStepFails: true
+      importResults: true
+      failBuildOnPolicyFail: false
+      maximumWaitTime: '30'
+  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+  #     eq( '${{ parameters.environment }}', 'dev'))
+  displayName: VeraCode sandbox scan
+  continueOnError: true
+
+
 
 # - task: Veracode Flaw Importer@3
 #   inputs:
