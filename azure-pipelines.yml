@@ -35,25 +35,25 @@ steps:
 #     failBuildOnPolicyFail: true
 #     maximumWaitTime: '60'
 
-- task: Veracode@3
-  inputs:
-      ConnectionDetailsSelection: Credentials
-      apiId: $(VERACODE_API_ID)
-      apiKey: $(VERACODE_API_KEY)
-      veracodeAppProfile: 'Azure_vera integration'
-      version: $(build.buildNumber)
-      filepath: 'app/target/verademo.war'
-      sandboxName: security_sandbox
-      createSandBox: true
-      # createProfile: true
-      failBuildIfUploadAndScanBuildStepFails: true
-      importResults: true
-      failBuildOnPolicyFail: false
-      maximumWaitTime: '30'
-  # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'),
-  #     eq( '${{ parameters.environment }}', 'dev'))
-  displayName: VeraCode sandbox scan
-  continueOnError: true
+# - task: Veracode@3
+#   inputs:
+#       ConnectionDetailsSelection: Credentials
+#       apiId: $(VERACODE_API_ID)
+#       apiKey: $(VERACODE_API_KEY)
+#       veracodeAppProfile: 'Azure_vera integration'
+#       version: $(build.buildNumber)
+#       filepath: 'app/target/verademo.war'
+#       sandboxName: security_sandbox
+#       createSandBox: true
+#       # createProfile: true
+#       failBuildIfUploadAndScanBuildStepFails: true
+#       importResults: true
+#       failBuildOnPolicyFail: false
+#       maximumWaitTime: '30'
+#   # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+#   #     eq( '${{ parameters.environment }}', 'dev'))
+#   displayName: VeraCode sandbox scan
+#   continueOnError: true
 
 
 
@@ -69,3 +69,12 @@ steps:
 # #    overwriteAreaPathInWorkItemsOnImport: true
 #     iterationPath: 'Azure_vera integration'
 #     flawImportLimit: '1000'
+
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    veracodeAppProfile: 'myapp'
+    version: '$(build.buildNumber)'
+    filepath: 'app/target/verademo.war'
+    importResults: true
+    maximumWaitTime: '60'
