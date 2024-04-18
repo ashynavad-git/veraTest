@@ -77,4 +77,3 @@ steps:
     version: '$(build.buildNumber)'
     filepath: 'app/target/verademo.war'
     importResults: true
-    maximumWaitTime: '60'
