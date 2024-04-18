@@ -73,7 +73,7 @@ steps:
 - task: Veracode@3
   inputs:
     ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
     veracodeAppProfile: 'myapp'
     version: '$(build.buildNumber)'
     filepath: 'app/target/verademo.war'
-    importResults: true
