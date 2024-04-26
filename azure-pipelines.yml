@@ -77,7 +77,7 @@ steps:
     veracodeAppProfile: 'myapp'
     version: '$(build.buildNumber)'
     filepath: 'app/target/verademo.war'
-    optargs: '-deleteIncompletesscan 2'
+    optargs: '-deleteIncompleteScan  2'
     failBuildIfUploadAndScanBuildStepFails: true
     maximumWaitTime: '360'
     
