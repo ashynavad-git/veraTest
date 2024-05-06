@@ -26,9 +26,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here
-      echo $(Build.BuildId)
-      echo $(Build.BuildNumber)
-      echo $(Date:yyyyMMdd).$(Rev:r)
+      echo $(Build.SourceVersion)
 
 
 
