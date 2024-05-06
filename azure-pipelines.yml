@@ -77,7 +77,7 @@ steps:
     veracodeAppProfile: 'myapp'
     createSandBox: true
     sandboxName: "AZURE"
-    version: '$(build.buildNumber).$(Rev:.r)'
+    version: '(Date:yyyyMMdd).$(Rev:.r)'
     filepath: 'app/target/verademo.war'
     optargs: '-deleteIncompleteScan  2'
     failBuildIfUploadAndScanBuildStepFails: true
