@@ -10,7 +10,7 @@ pool:
   name: Default
 
 variables:
-    currentDate: $[ format('{0:yyyy}{0:MM}{0:dd}.{0:HH}{0:mm}{0:ss}', pipeline.startTime) ]
+    Version: $[ format('{0:yyyy}{0:MM}{0:dd}.{0:HH}{0:mm}{0:ss}', pipeline.startTime) ]
 
 steps:
 - task: Maven@4
@@ -31,7 +31,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here
-      echo $(currentDate)
+      echo $(Version)
 
 
 # - task: Veracode@3
@@ -83,16 +83,16 @@ steps:
 #     overwriteIterationPath: true
 #     flawImportLimit: '500'
 
-# - task: Veracode@3
-#   inputs:
-#     ConnectionDetailsSelection: 'Service Connection'
-#     AnalysisService: 'vera_Azure'
-#     veracodeAppProfile: 'myapp'
-#     createSandBox: true
-#     sandboxName: "AZURE"
-#     version: '$(DayOfMonth)'
-#     filepath: 'app/target/verademo.war'
-#     optargs: '-deleteIncompleteScan  2'
-#     failBuildIfUploadAndScanBuildStepFails: true
-#     maximumWaitTime: '360'
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
+    veracodeAppProfile: 'myapp'
+    createSandBox: true
+    sandboxName: "AZURE"
+    version: '$(Version)'
+    filepath: 'app/target/verademo.war'
+    optargs: '-deleteIncompleteScan  2'
+    failBuildIfUploadAndScanBuildStepFails: true
+    maximumWaitTime: '360'
     
