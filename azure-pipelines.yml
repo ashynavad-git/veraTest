@@ -55,29 +55,31 @@ steps:
 #   displayName: VeraCode sandbox scan
 #   continueOnError: true
 
-- task: Veracode Flaw Importer@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: 'myapp'
-    sandboxName: 
-    scanType: 'Static, SCA'
-    importType: 'All Flaws'
-    workItemType: 'Bug'
-    area: 'Azure_vera integration'
-    overwriteAreaPathInWorkItemsOnImport: true
-    iterationPath: 'Azure_vera integration'
-    overwriteIterationPath: true
-    flawImportLimit: '500'
-
-# - task: Veracode@3
+# - task: Veracode Flaw Importer@3
 #   inputs:
 #     ConnectionDetailsSelection: 'Service Connection'
 #     AnalysisService: 'vera_Azure'
 #     veracodeAppProfile: 'myapp'
-#     version: '$(build.buildNumber)'
-#     filepath: 'app/target/verademo.war'
-#     optargs: '-deleteIncompleteScan  2'
-#     failBuildIfUploadAndScanBuildStepFails: true
-#     maximumWaitTime: '360'
+#     sandboxName: 
+#     scanType: 'Static, SCA'
+#     importType: 'All Flaws'
+#     workItemType: 'Bug'
+#     area: 'Azure_vera integration'
+#     overwriteAreaPathInWorkItemsOnImport: true
+#     iterationPath: 'Azure_vera integration'
+#     overwriteIterationPath: true
+#     flawImportLimit: '500'
+
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
+    veracodeAppProfile: 'myapp'
+    createSandBox: true
+    sandboxName: "AZURE"
+    version: '$(build.buildName)_$(Date:yyyyMMdd).$(Rev:r)'
+    filepath: 'app/target/verademo.war'
+    optargs: '-deleteIncompleteScan  2'
+    failBuildIfUploadAndScanBuildStepFails: true
+    maximumWaitTime: '360'
     
