@@ -20,7 +20,18 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-    
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      echo $(Build.BuildId)
+      echo $(Build.BuildNumber)
+      echo $(Date:yyyyMMdd).$(Rev:r)
+
+
+
 # - task: Veracode@3
 #   inputs:
 #     ConnectionDetailsSelection: 'Service Connection'
@@ -70,16 +81,16 @@ steps:
 #     overwriteIterationPath: true
 #     flawImportLimit: '500'
 
-- task: Veracode@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: 'myapp'
-    createSandBox: true
-    sandboxName: "AZURE"
-    version: '$(DayOfMonth)'
-    filepath: 'app/target/verademo.war'
-    optargs: '-deleteIncompleteScan  2'
-    failBuildIfUploadAndScanBuildStepFails: true
-    maximumWaitTime: '360'
+# - task: Veracode@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: 'myapp'
+#     createSandBox: true
+#     sandboxName: "AZURE"
+#     version: '$(DayOfMonth)'
+#     filepath: 'app/target/verademo.war'
+#     optargs: '-deleteIncompleteScan  2'
+#     failBuildIfUploadAndScanBuildStepFails: true
+#     maximumWaitTime: '360'
     
