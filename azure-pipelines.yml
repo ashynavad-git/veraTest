@@ -24,6 +24,28 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      #!/bin/bash
+      
+      # Get the current user's home directory
+      user_home=$(echo ~$USER)
+      
+      # Create the .Veracode folder if it doesn't exist
+      mkdir -p "$user_home/.veracode"
+      
+      # Add messages to the credentials file
+      # user may use pipeline variables to mask Id and Key
+      cat << EOF > "$user_home/.veracode/credentials"
+      [default]
+      veracode_api_key_id = $(VERACODE_API_KEY_ID)
+      veracode_api_key_secret = $(VERACODE_API_KEY_SECRET)
+      EOF
+      
+      echo "File created successfully."
+
 
 # - task: Bash@3
 #   inputs:
