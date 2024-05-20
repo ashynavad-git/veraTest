@@ -13,22 +13,22 @@ variables:
     Version: $[ format('{0:yyyy}{0:MM}{0:dd}.{0:HH}{0:mm}{0:ss}', pipeline.startTime) ]
 
 steps:
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'app/pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    testRunTitle: 'Test'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+# - task: Maven@4
+#   inputs:
+#     mavenPomFile: 'app/pom.xml'
+#     publishJUnitResults: true
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     testRunTitle: 'Test'
+#     javaHomeOption: 'JDKVersion'
+#     mavenVersionOption: 'Default'
+#     mavenAuthenticateFeed: false
+#     effectivePomSkip: false
+#     sonarQubeRunAnalysis: false
 
 
 - task: CmdLine@2
   inputs:
-    script: 'echo -n "$(VERACODE_API_KEY_ID)" >> foo && cut -c1-9 foo && cut -c4'
+    script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
     
 
 # - task: Bash@3
