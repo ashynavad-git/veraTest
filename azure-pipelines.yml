@@ -29,7 +29,10 @@ steps:
 - task: CmdLine@2
   inputs:
     script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
-    
+
+- task: CmdLine@2
+  inputs:
+    script: 'ipconfig'
 
 # - task: Bash@3
 #   inputs:
