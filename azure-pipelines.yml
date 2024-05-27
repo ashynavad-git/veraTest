@@ -114,16 +114,16 @@ steps:
 #     overwriteIterationPath: true
 #     flawImportLimit: '500'
 
-# - task: Veracode@3
-#   inputs:
-#     ConnectionDetailsSelection: 'Service Connection'
-#     AnalysisService: 'vera_Azure'
-#     veracodeAppProfile: 'Azure_vera integration'
-#     createSandBox: true
-#     sandboxName: "AZURE"
-#     version: '$(Version)'
-#     filepath: 'app/target/verademo.war'
-#     optargs: '-deleteIncompleteScan 2 -exclude log4j-1.2.17.jar'
-#     failBuildIfUploadAndScanBuildStepFails: true
-#     maximumWaitTime: '360'
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
+    veracodeAppProfile: 'Azure_vera integration'
+    createSandBox: true
+    sandboxName: "AZURE"
+    version: '$(Version)'
+    filepath: 'app/target/verademo.war'
+    optargs: '-deleteIncompleteScan 2 -include Verademo.war'
+    failBuildIfUploadAndScanBuildStepFails: true
+    maximumWaitTime: '360'
     
