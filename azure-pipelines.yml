@@ -62,29 +62,29 @@ steps:
 #       echo $(Version)
 
 
-- task: Veracode@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: '$(system.teamProject)'
-    version: '$(build.buildNumber)'
-    filepath: 'app/target/verademo.war'
-    optargs: '-autoscan false -scanallnonfataltoplevelmodules true'
-    createProfile: true
-    importResults: true
-    maximumWaitTime: '60'
+# - task: Veracode@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: '$(system.teamProject)'
+#     version: '$(build.buildNumber)'
+#     filepath: 'app/target/verademo.war'
+#     optargs: '-autoscan false -scanallnonfataltoplevelmodules true'
+#     createProfile: true
+#     importResults: true
+#     maximumWaitTime: '60'
 
-- task: Veracode@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: 'myapp'
-    version: '$(build.buildNumber)'
-    filepath: 'app/target/verademo.war'
-    optargs: '-deleteincompletescan 2'
-    failBuildIfUploadAndScanBuildStepFails: true
-    importResults: true
-    maximumWaitTime: '30'
+# - task: Veracode@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: 'myapp'
+#     version: '$(build.buildNumber)'
+#     filepath: 'app/target/verademo.war'
+#     optargs: '-deleteincompletescan 2'
+#     failBuildIfUploadAndScanBuildStepFails: true
+#     importResults: true
+#     maximumWaitTime: '30'
 
 #   # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'),
 #   #     eq( '${{ parameters.environment }}', 'dev'))
@@ -119,17 +119,16 @@ steps:
 #     failBuildIfUploadAndScanBuildStepFails: true
 #     maximumWaitTime: '360'
     
-# - task: Veracode Flaw Importer@3
-#   inputs:
-#     ConnectionDetailsSelection: 'Service Connection'
-#     AnalysisService: 'vera_Azure'
-#     veracodeAppProfile: 'Azure_vera integration'
-#     sandboxName: 'FlawImporter'
-#     scanType: 'SCA'
-#     importType: 'All Flaws'
-#     workItemType: 'Bug'
-#     area: 'Azure_vera integration'
-#     overwriteAreaPathInWorkItemsOnImport: true
-#     iterationPath: 'Azure_vera integration'
-#     overwriteIterationPath: true
-#     flawImportLimit: '100'
+- task: Veracode Flaw Importer@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
+    veracodeAppProfile: 'Veracode-Jenkiens'
+    scanType: 'Dynamic, Static'
+    importType: 'All Flaws'
+    workItemType: 'Bug'
+    area: 'Azure_vera integration'
+    overwriteAreaPathInWorkItemsOnImport: true
+    iterationPath: 'Azure_vera integration'
+    overwriteIterationPath: true
+    flawImportLimit: '100'
