@@ -77,20 +77,19 @@ jobs:
         with:
           name: Veracode Pipeline-Scan Results
 
-
           
-#      - name: Create fixes from static findings
-#        id: convert
-#        uses: Veracode/veracode-fix@main
-#        with:
-#          inputFile: filtered_results.json
-#          vid: ${{ secrets.VERACODE_API_ID }}
-#          vkey: ${{ secrets.VERACODE_API_KEY }}
-#          source_base_path_1: "com/:java/com/veracode/verademo"
-#          source_base_path_2: "WEB-INF:src/main/webapp/WEB-INF"
-#          language: java
-#          cwe: '117'
+      - name: Create fixes from static findings
+        id: convert
+        uses: Veracode/veracode-fix@main
+        with:
+          inputFile: filtered_results.json
+          vid: ${{ secrets.VERACODE_API_ID }}
+          vkey: ${{ secrets.VERACODE_API_KEY }}
+          source_base_path_1: "com/:java/com/veracode/verademo"
+          source_base_path_2: "WEB-INF:src/main/webapp/WEB-INF"
+          language: java
+          cwe: '117'
 #          prComment: true
-#          fixType: batch
-#          file: all
+          fixType: batch
+          file: all
           
