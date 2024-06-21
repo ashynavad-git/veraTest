@@ -4,12 +4,12 @@ env:
   V_ID: ${{ secrets.VERACODE_API_ID }}
   V_KEY: ${{ secrets.VERACODE_API_KEY }}
   
-#on:
-#  pull_request:
-#    types:
-#      - opened
 on:
-  workflow_dispatch
+  pull_request:
+    types:
+      - opened
+#on:
+  #workflow_dispatch
 
 jobs:
   build:
@@ -88,8 +88,8 @@ jobs:
           source_base_path_1: "com/:java/com/veracode/verademo"
           source_base_path_2: "WEB-INF:src/main/webapp/WEB-INF"
           language: java
-          cwe: '117'
-#          prComment: true
-          fixType: batch
+    #      cwe: '117'
+          prComment: true
+          fixType: single
           file: all
-          
+          codeSuggestion: true
