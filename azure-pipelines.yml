@@ -111,24 +111,25 @@ steps:
     ConnectionDetailsSelection: 'Service Connection'
     AnalysisService: 'vera_Azure'
     veracodeAppProfile: 'Azure_vera integration'
-    createSandBox: true
-    sandboxName: "AZURE"
     version: '$(Version)'
     filepath: 'app/target/verademo.war'
-    optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true -include verdemo.war '
+    sandboxName: 'AZURE'
+    createSandBox: true
+    optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true'
     failBuildIfUploadAndScanBuildStepFails: true
+    importResults: true
     maximumWaitTime: '360'
     
-- task: Veracode Flaw Importer@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: 'Veracode-Jenkiens'
-    scanType: 'Dynamic, Static'
-    importType: 'All Flaws'
-    workItemType: 'Bug'
-    area: 'Azure_vera integration'
-    overwriteAreaPathInWorkItemsOnImport: true
-    iterationPath: 'Azure_vera integration'
-    overwriteIterationPath: true
-    flawImportLimit: '1000'
+# - task: Veracode Flaw Importer@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: 'Veracode-Jenkiens'
+#     scanType: 'Dynamic, Static'
+#     importType: 'All Flaws'
+#     workItemType: 'Bug'
+#     area: 'Azure_vera integration'
+#     overwriteAreaPathInWorkItemsOnImport: true
+#     iterationPath: 'Azure_vera integration'
+#     overwriteIterationPath: true
+#     flawImportLimit: '1000'
