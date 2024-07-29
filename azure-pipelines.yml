@@ -111,6 +111,12 @@ steps:
     script: |
       python3 --version
       pip install veracode-api-signing
+      
+      user_home=$(echo ~$USER)
+      
+      Create the .Veracode folder if it doesn't exist
+      mkdir -p "$user_home/.veracode"
+
       cat << EOF > "$user_home/.veracode/credentials"
       [default]
       veracode_api_key_id = $(VERACODE_API_KEY_ID)
