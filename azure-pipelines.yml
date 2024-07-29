@@ -111,8 +111,9 @@ steps:
     script: |
       python3 --version
       pip install veracode-api-signing
+      python3 - << EOF
       http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"
-    
+      EOF
 - task: Veracode@3
   inputs:
     ConnectionDetailsSelection: 'Service Connection'
