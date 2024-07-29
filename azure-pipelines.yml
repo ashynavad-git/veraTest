@@ -105,9 +105,13 @@ steps:
 #     iterationPath: 'Azure_vera integration'
 #     overwriteIterationPath: true
 #     flawImportLimit: '500'
-- task: CmdLine@2
+- task: Bash@3
   inputs:
-    script: 'http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"'
+    targetType: 'inline'
+    script: |
+      python3 --version
+      pip install veracode-api-signing
+      http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"
     
 - task: Veracode@3
   inputs:
