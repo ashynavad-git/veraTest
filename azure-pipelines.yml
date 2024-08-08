@@ -105,24 +105,24 @@ steps:
 #     iterationPath: 'Azure_vera integration'
 #     overwriteIterationPath: true
 #     flawImportLimit: '500'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      python3 --version
-      pip install veracode-api-signing
+# - task: Bash@3
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       python3 --version
+#       pip install veracode-api-signing
       
-      user_home=$(echo ~$USER)
+#       user_home=$(echo ~$USER)
       
-      Create the .Veracode folder if it doesn't exist
-      mkdir -p "$user_home/.veracode"
+#       Create the .Veracode folder if it doesn't exist
+#       mkdir -p "$user_home/.veracode"
 
-      cat << EOF > "$user_home/.veracode/credentials"
-      [default]
-      veracode_api_key_id = $(VERACODE_API_KEY_ID)
-      veracode_api_key_secret = $(VERACODE_API_KEY_SECRET)
-      EOF
-      http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"
+#       cat << EOF > "$user_home/.veracode/credentials"
+#       [default]
+#       veracode_api_key_id = $(VERACODE_API_KEY_ID)
+#       veracode_api_key_secret = $(VERACODE_API_KEY_SECRET)
+#       EOF
+#       http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"
   
 - task: Veracode@3
   inputs:
