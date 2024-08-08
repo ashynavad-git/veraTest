@@ -133,7 +133,7 @@ steps:
     filepath: 'app/target/verademo.war'
     sandboxName: 'AZURE'
     createSandBox: true
-    optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true'
+    optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true -include *.war'
     failBuildIfUploadAndScanBuildStepFails: true
     importResults: true
     maximumWaitTime: '360'
