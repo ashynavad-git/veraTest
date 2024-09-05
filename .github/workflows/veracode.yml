@@ -58,6 +58,7 @@ jobs:
             file: "verademo.war" 
             debug: 1
             fail_build: false 
+            veracode_policy_name: "Veracode Recommended Low"
 
  #       - uses: actions/upload-artifact@v4
  #         with:
@@ -78,18 +79,18 @@ jobs:
           name: Veracode Pipeline-Scan Results
 
           
-      - name: Create fixes from static findings
-        id: convert
-        uses: veracode/veracode-fix@main
-        with:
-          inputFile: filtered_results.json
-          vid: ${{ secrets.VERACODE_API_ID }}
-          vkey: ${{ secrets.VERACODE_API_KEY }}
-          source_base_path_1: "com/:java/com/veracode/verademo"
-          source_base_path_2: "WEB-INF:src/main/webapp/WEB-INF"
-          language: java
+ #     - name: Create fixes from static findings
+  #      id: convert
+  #      uses: veracode/veracode-fix@main
+ #       with:
+ #         inputFile: filtered_results.json
+  #        vid: ${{ secrets.VERACODE_API_ID }}
+  #        vkey: ${{ secrets.VERACODE_API_KEY }}
+  #        source_base_path_1: "com/:java/com/veracode/verademo"
+  #        source_base_path_2: "WEB-INF:src/main/webapp/WEB-INF"
+  #        language: java
     #      cwe: '117'
-          prComment: true
-          fixType: single
-          file: all
-          codeSuggestion: true
+ #         prComment: true
+  #        fixType: single
+  #        file: all
+    #      codeSuggestion: true
