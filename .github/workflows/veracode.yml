@@ -54,7 +54,9 @@ jobs:
             file: "verademo.war" 
             debug: 1
             fail_build: false 
-            veracode_policy_name: "Veracode Recommended Low"
+            policy_name: "Veracode Recommended Low"
+           # veracode_policy_name: "Veracode Recommended Low"
+          
 
  #       - uses: actions/upload-artifact@v4
  #         with:
