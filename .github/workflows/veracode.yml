@@ -67,7 +67,7 @@ jobs:
             #policy_name: "Veracode Recommended Low"
             veracode_policy_name: "Veracode Recommended Medium"
             
-results_to_sarif:
+  results_to_sarif:
     needs: pipeline_scan
     runs-on: ubuntu-latest
     name: import pipeline results to sarif
@@ -84,7 +84,7 @@ results_to_sarif:
           output-results-sarif: veracode-results.sarif
           source-base-path-1: "^com/veracode:src/main/java/com/veracode"
           source-base-path-2: "^WEB-INF:src/main/webapp/WEB-INF"
-          output-results-sarif: veracode-results.sarif
+      #    output-results-sarif: veracode-results.sarif
           commitSHA: 3be8bfc150b85d98333e96a64ca2b03104787053
           ref: refs/heads/master
           githubToken: ${{ secrets.GITHUBTOKEN}}  
