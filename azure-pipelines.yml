@@ -138,7 +138,18 @@ steps:
 #     failBuildIfUploadAndScanBuildStepFails: true
 #     importResults: true
 #     maximumWaitTime: '360'
-    
+
+- task: Bash@3
+  displayName: Veracode CLI
+  env:
+    VERACODE_API_KEY_ID: $(VERACODE_API_KEY_ID)
+    VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY_SECRET)
+  inputs:
+    targetType: 'inline'
+    script: |
+     curl -fsS https://tools.veracode.com/veracode-cli/install | sh
+     ./veracode package --source . --output $(Build.ArtifactStagingDirectory)/veracode-artifacts --trust --debug
+  
 - task: Veracode Flaw Importer@3
   inputs:
     ConnectionDetailsSelection: 'Service Connection'
