@@ -163,4 +163,5 @@ steps:
     overwriteAreaPathInWorkItemsOnImport: true
     iterationPath: 'Azure_vera integration'
     overwriteIterationPath: true
+    addCustomTag: 'veraTest'
     flawImportLimit: '1'
