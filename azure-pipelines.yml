@@ -151,18 +151,29 @@ steps:
      curl -fsS https://tools.veracode.com/veracode-cli/install | sh
      ./veracode package --source . --output $(Build.ArtifactStagingDirectory)/veracode-artifacts --trust --debug
   
-- task: Veracode Flaw Importer@3
+
+- task: Bash@3
   inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: 'Veracode-Jenkiens'
-    sandboxName: 'Free_Style'
-    scanType: 'Dynamic, Static'
-    importType: 'All Flaws'
-    workItemType: 'Bug'
-    area: 'Azure_vera integration'
-    overwriteAreaPathInWorkItemsOnImport: true
-    iterationPath: 'Azure_vera integration'
-    overwriteIterationPath: true
-    addCustomTag: '$(parameters.repoName)'
-    flawImportLimit: '1'
+    targetType: 'inline'
+    script: |
+      - VERACODE_WRAPPER_VERSION=$(curl -sS "https://search.maven.org/solrsearch/select?q=g:%22com.veracode.vosp.api.wrappers%22&rows=20&wt=json" | jq -r '.response.docs[0].latestVersion') && curl -sS -o veracode-wrapper.jar "https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar"
+      - java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET)
+                -action detailedreport -build_id 42999208
+
+
+
+# - task: Veracode Flaw Importer@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: 'Veracode-Jenkiens'
+#     sandboxName: 'Free_Style'
+#     scanType: 'Dynamic, Static'
+#     importType: 'All Flaws'
+#     workItemType: 'Bug'
+#     area: 'Azure_vera integration'
+#     overwriteAreaPathInWorkItemsOnImport: true
+#     iterationPath: 'Azure_vera integration'
+#     overwriteIterationPath: true
+#     addCustomTag: '$(parameters.repoName)'
+#     flawImportLimit: '1'
