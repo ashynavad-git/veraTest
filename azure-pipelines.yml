@@ -157,7 +157,19 @@ steps:
     targetType: 'inline'
     script: |
       VERACODE_WRAPPER_VERSION=$(curl -sS "https://search.maven.org/solrsearch/select?q=g:%22com.veracode.vosp.api.wrappers%22&rows=20&wt=json" | jq -r '.response.docs[0].latestVersion') && curl -sS -o veracode-wrapper.jar "https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar"
-      java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action detailedreport -buildid 42999208 -outputfilepath $(Build.ArtifactStagingDirectory)/detailedreport.xml
+      java -jar $WRAPPER_JAR_PATH -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action getbuildlist -appid $APP_ID > buildlist.json
+
+      # Extract the build ID from the output (assuming JSON format for simplicity)
+      BUILD_ID=$(jq -r '.[0].build_id' buildlist.json)
+
+      # Check if the BUILD_ID is retrieved
+      if [ -z "$BUILD_ID" ]; then
+        echo "No build found"
+        exit 1
+      fi
+
+      echo "Latest Build ID: $BUILD_ID"
+      java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action detailedreport -buildid $BUILD_ID -outputfilepath $(Build.ArtifactStagingDirectory)/detailedreport.xml
 
 
 
