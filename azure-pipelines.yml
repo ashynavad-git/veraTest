@@ -32,6 +32,14 @@ steps:
   inputs:
     script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
 
+- task: Bash@3
+  displayName: 'Veracode pipeline scan'
+  inputs:
+    targetType: 'inline'
+    script: |
+      curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+      unzip -o pipeline-scan-LATEST.zip
+      java -jar pipeline-scan.jar --veracode_api_id "$VERACODE_API_ID" --veracode_api_key "$VERACODE_API_KEY" --file "$(Pipeline.Workspace)/build_Artifact/Verademo.war" --baseline_file "baseline.json" 
 
 # - task: Bash@3
 #   inputs:
