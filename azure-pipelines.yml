@@ -15,22 +15,32 @@ variables:
     name: Azure_vera integration
 
 steps:
-# - task: Maven@4
-#   inputs:
-#     mavenPomFile: 'app/pom.xml'
-#     publishJUnitResults: true
-#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#     testRunTitle: 'Test'
-#     javaHomeOption: 'JDKVersion'
-#     mavenVersionOption: 'Default'
-#     mavenAuthenticateFeed: false
-#     effectivePomSkip: false
-#     sonarQubeRunAnalysis: false
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'app/pom.xml'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    testRunTitle: 'Test'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
 
+
+# - task: CmdLine@2
+#   inputs:
+#     script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
 
 - task: CmdLine@2
+  displayName: Veracode static scan
   inputs:
-    script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
+    script: |
+      curl -fsS https://tools.veracode.com/veracode-cli/install | sh
+      ./veracode static scan verademo.war
+  env: 
+    VERACODE_API_KEY_ID: $(VERACODE_API_ID)
+    VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY)
 
 - task: Bash@3
   displayName: 'Veracode pipeline scan'
