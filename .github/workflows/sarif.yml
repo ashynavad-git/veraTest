@@ -28,35 +28,28 @@ jobs:
    #           vkey: '${{ secrets.VERACODE_API_KEY }}'
    #           deleteincompletescan: 2
             
-  get-policy-flaws:
-     needs: build
+   get-policy-flaws:
      runs-on: ubuntu-latest
-     steps: 
-      - name: get policy flaws
-        run: |
-         cd /tmp
-         export VERACODE_API_KEY_ID=${{ secrets.VERACODE_API_ID  }}
-         export VERACODE_API_KEY_SECRET=${{ secrets.VERACODE_API_KEY}}
-         pip install veracode-api-signing
-             guid=$(http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v1/applications?name=myapp" | jq -r '._embedded.applications[0].guid') 
-             echo GUID: ${guid}
-             total_flaws=$(http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v2/applications/${guid}/findings?scan_type=STATIC" | jq -r '.page.total_elements')
-             echo TOTAL_FLAWS: ${total_flaws}
-             http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v2/applications/${guid}/findings?scan_type=STATIC&violates_policy=True&size=${total_flaws}" > policy_flaws.json
-             if [ "$total_flaws" -gt 0 ]; then
-             echo "total_flaws is greater than 0, using original policy_flaws.json"
-         else
-            jq ''._embedded = { findings: [] }'' policy_flaws.json > modified_policy_flaws.json
-            mv modified_policy_flaws.json policy_flaws.json  # Overwrite original file
-            echo "total_flaws is 0, hence modifying the original file"   
-         fi  
-         
-      - name: save results file
-        continue-on-error: true 
-        uses: actions/upload-artifact@v4
-        with:
+     container: 
+       image: veracode/api-signing:latest
+     steps:
+       - name: get policy flaws
+         run: |
+           cd /tmp
+           export VERACODE_API_KEY_ID=${{ secrets.VID }}
+           export VERACODE_API_KEY_SECRET=${{ secrets.VKEY }}
+           guid=$(http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v1/applications?name=myapp" | jq -r '._embedded.applications[0].guid') 
+           echo GUID: ${guid}
+           total_flaws=$(http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v2/applications/${guid}/findings?scan_type=STATIC&violates_policy=True" | jq -r '.page.total_elements')
+           echo TOTAL_FLAWS: ${total_flaws}
+           http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v2/applications/${guid}/findings?scan_type=STATIC&violates_policy=True&size=${total_flaws}" > policy_flaws.json
+
+       - name: save results file
+         uses: actions/upload-artifact@v3
+         with:
            name: policy-flaws
            path: /tmp/policy_flaws.json
+         
 
   results_to_sarif:
    runs-on: ubuntu-latest
