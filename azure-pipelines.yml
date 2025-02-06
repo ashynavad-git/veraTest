@@ -15,41 +15,41 @@ variables:
     name: Azure_vera integration
 
 steps:
-- task: Maven@4
-  inputs:
-    mavenPomFile: 'app/pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    testRunTitle: 'Test'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+# - task: Maven@4
+#   inputs:
+#     mavenPomFile: 'app/pom.xml'
+#     publishJUnitResults: true
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     testRunTitle: 'Test'
+#     javaHomeOption: 'JDKVersion'
+#     mavenVersionOption: 'Default'
+#     mavenAuthenticateFeed: false
+#     effectivePomSkip: false
+#     sonarQubeRunAnalysis: false
 
 
 # - task: CmdLine@2
 #   inputs:
 #     script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
 
-- task: CmdLine@2
-  displayName: Veracode static scan
-  inputs:
-    script: |
-      curl -fsS https://tools.veracode.com/veracode-cli/install | sh
-      ./veracode static scan ./app/target/verademo.war --verbose
-  env: 
-    VERACODE_API_KEY_ID: $(VERACODE_API_KEY_ID)
-    VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY_SECRET)
+# - task: CmdLine@2
+#   displayName: Veracode static scan
+#   inputs:
+#     script: |
+#       curl -fsS https://tools.veracode.com/veracode-cli/install | sh
+#       ./veracode static scan ./app/target/verademo.war --verbose
+#   env: 
+#     VERACODE_API_KEY_ID: $(VERACODE_API_KEY_ID)
+#     VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY_SECRET)
 
-- task: Bash@3
-  displayName: 'Veracode pipeline scan'
-  inputs:
-    targetType: 'inline'
-    script: |
-      curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
-      unzip -o pipeline-scan-LATEST.zip
-      java -jar pipeline-scan.jar --veracode_api_id "$VERACODE_API_ID" --veracode_api_key "$VERACODE_API_KEY" --file "$(Pipeline.Workspace)/build_Artifact/Verademo.war" --baseline_file "baseline.json" 
+# - task: Bash@3
+#   displayName: 'Veracode pipeline scan'
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
+#       unzip -o pipeline-scan-LATEST.zip
+#       java -jar pipeline-scan.jar --veracode_api_id "$VERACODE_API_ID" --veracode_api_key "$VERACODE_API_KEY" --file "$(Pipeline.Workspace)/build_Artifact/Verademo.war" --baseline_file "baseline.json" 
 
 # - task: Bash@3
 #   inputs:
@@ -170,40 +170,39 @@ steps:
 #      ./veracode package --source . --output $(Build.ArtifactStagingDirectory)/veracode-artifacts --trust --debug
   
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      VERACODE_WRAPPER_VERSION=$(curl -sS "https://search.maven.org/solrsearch/select?q=g:%22com.veracode.vosp.api.wrappers%22&rows=20&wt=json" | jq -r '.response.docs[0].latestVersion') && curl -sS -o veracode-wrapper.jar "https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar"
-      java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action getbuildlist -appid 1841657 > buildlist.xml
-
-      BUILD_ID=$(xmllint --xpath "string(//*[local-name()='build'][last()]/@build_id)" buildlist.xml)
-
-      # Check if the BUILD_ID is retrieved
-      if [ -z "$BUILD_ID" ]; then
-        echo "No build found"
-        exit 1
-      fi
-
-      echo "Latest Build ID: $BUILD_ID"
-
-      echo "Latest Build ID: $BUILD_ID"
-      java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action detailedreport -buildid $BUILD_ID -outputfilepath $(Build.ArtifactStagingDirectory)/detailedreport.xml
-
-
-
-# - task: Veracode Flaw Importer@3
+# - task: Bash@3
 #   inputs:
-#     ConnectionDetailsSelection: 'Service Connection'
-#     AnalysisService: 'vera_Azure'
-#     veracodeAppProfile: 'Veracode-Jenkiens'
-#     sandboxName: 'Free_Style'
-#     scanType: 'Dynamic, Static'
-#     importType: 'All Flaws'
-#     workItemType: 'Bug'
-#     area: 'Azure_vera integration'
-#     overwriteAreaPathInWorkItemsOnImport: true
-#     iterationPath: 'Azure_vera integration'
-#     overwriteIterationPath: true
-#     addCustomTag: '$(parameters.repoName)'
-#     flawImportLimit: '1'
+#     targetType: 'inline'
+#     script: |
+#       VERACODE_WRAPPER_VERSION=$(curl -sS "https://search.maven.org/solrsearch/select?q=g:%22com.veracode.vosp.api.wrappers%22&rows=20&wt=json" | jq -r '.response.docs[0].latestVersion') && curl -sS -o veracode-wrapper.jar "https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/${VERACODE_WRAPPER_VERSION}/vosp-api-wrappers-java-${VERACODE_WRAPPER_VERSION}.jar"
+#       java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action getbuildlist -appid 1841657 > buildlist.xml
+
+#       BUILD_ID=$(xmllint --xpath "string(//*[local-name()='build'][last()]/@build_id)" buildlist.xml)
+
+#       # Check if the BUILD_ID is retrieved
+#       if [ -z "$BUILD_ID" ]; then
+#         echo "No build found"
+#         exit 1
+#       fi
+
+#       echo "Latest Build ID: $BUILD_ID"
+
+#       echo "Latest Build ID: $BUILD_ID"
+#       java -jar veracode-wrapper.jar -vid $(VERACODE_API_KEY_ID) -vkey $(VERACODE_API_KEY_SECRET) -action detailedreport -buildid $BUILD_ID -outputfilepath $(Build.ArtifactStagingDirectory)/detailedreport.xml
+
+
+
+- task: Veracode Flaw Importer@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
+    veracodeAppProfile: 'Veracode-Jenkiens'
+    sandboxName: 'Free_Style'
+    scanType: 'Dynamic, Static'
+    importType: 'All Flaws'
+    workItemType: 'Issue'
+    area: 'Azure_vera integration'
+    overwriteAreaPathInWorkItemsOnImport: true
+    iterationPath: 'Azure_vera integration'
+    overwriteIterationPath: true
+    flawImportLimit: '1'
