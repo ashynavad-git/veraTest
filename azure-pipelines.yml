@@ -205,4 +205,4 @@ steps:
     overwriteAreaPathInWorkItemsOnImport: true
     iterationPath: 'Azure_vera integration'
     overwriteIterationPath: true
-    flawImportLimit: '1'
+    flawImportLimit: '10'
