@@ -144,19 +144,26 @@ steps:
 #       EOF
 #       http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"
   
-# - task: Veracode@3
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'vera_Azure'
+    veracodeAppProfile: '$(name)'
+    version: '$(Version)'
+    filepath: 'app/target/verademo.war'
+    sandboxName: 'AZURE'
+    createSandBox: true
+    optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true'
+    failBuildIfUploadAndScanBuildStepFails: true
+    importResults: true
+    maximumWaitTime: '360'
+    generate_sarif_report: true
+    
+
+# - task: PublishSarifResults@1
 #   inputs:
-#     ConnectionDetailsSelection: 'Service Connection'
-#     AnalysisService: 'vera_Azure'
-#     veracodeAppProfile: '$(name)'
-#     version: '$(Version)'
-#     filepath: 'app/target/verademo.war'
-#     sandboxName: 'AZURE'
-#     createSandBox: true
-#     optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true -include *.war'
-#     failBuildIfUploadAndScanBuildStepFails: true
-#     importResults: true
-#     maximumWaitTime: '360'
+#     sarifFile: '$(Build.ArtifactStagingDirectory)/veracode-sarif-results.sarif'
+#     uploadToAzureDefender: true
 
 # - task: Bash@3
 #   displayName: Veracode CLI
@@ -205,4 +212,4 @@ steps:
     overwriteAreaPathInWorkItemsOnImport: true
     iterationPath: 'Azure_vera integration'
     overwriteIterationPath: true
-    flawImportLimit: '10'
+    flawImportLimit: '1'
