@@ -15,17 +15,17 @@ variables:
     name: Azure_vera integration
 
 steps:
-# - task: Maven@4
-#   inputs:
-#     mavenPomFile: 'app/pom.xml'
-#     publishJUnitResults: true
-#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#     testRunTitle: 'Test'
-#     javaHomeOption: 'JDKVersion'
-#     mavenVersionOption: 'Default'
-#     mavenAuthenticateFeed: false
-#     effectivePomSkip: false
-#     sonarQubeRunAnalysis: false
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'app/pom.xml'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    testRunTitle: 'Test'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
 
 
 # - task: CmdLine@2
@@ -155,9 +155,7 @@ steps:
     createSandBox: true
     optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true'
     failBuildIfUploadAndScanBuildStepFails: true
-    importResults: true
-    maximumWaitTime: '360'
-    generate_sarif_report: true
+
     
 
 # - task: PublishSarifResults@1
