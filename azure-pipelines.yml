@@ -203,7 +203,7 @@ steps:
     sandboxName: 'Free_Style'
     scanType: 'Dynamic, Static'
     importType: 'All Flaws'
-    workItemType: 'Issue'
+    workItemType: 'User Story'
     area: 'Azure_vera integration'
     overwriteAreaPathInWorkItemsOnImport: true
     iterationPath: 'Azure_vera integration'
