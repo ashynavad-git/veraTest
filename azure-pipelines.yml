@@ -142,17 +142,17 @@ steps:
 #       EOF
 #       http --auth-type=veracode_hmac "https://analysiscenter.veracode.com/api/5.0/getbuildinfo.do" "app_id== 1929099" "sandbox_id== 6304519"
   
-- task: Veracode@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: '$(name)'
-    version: '$(Version)'
-    filepath: 'app/target/verademo.war'
-    sandboxName: 'AZURE'
-    createSandBox: true
-    optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true'
-    failBuildIfUploadAndScanBuildStepFails: true
+# - task: Veracode@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: '$(name)'
+#     version: '$(Version)'
+#     filepath: 'app/target/verademo.war'
+#     sandboxName: 'AZURE'
+#     createSandBox: true
+#     optargs: '-deleteIncompleteScan 2 -includenewmodules true -scanallnonfataltoplevelmodules true'
+#     failBuildIfUploadAndScanBuildStepFails: true
 
     
 
@@ -203,7 +203,7 @@ steps:
     sandboxName: 'Free_Style'
     scanType: 'Dynamic, Static'
     importType: 'All Flaws'
-    workItemType: 'User Story'
+    workItemType: 'Bug'
     area: 'Azure_vera integration'
     overwriteAreaPathInWorkItemsOnImport: true
     iterationPath: 'Azure_vera integration'
