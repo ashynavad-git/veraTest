@@ -30,28 +30,28 @@ steps:
 #   inputs:
 #     script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
 
-- task: CmdLine@2
-  continueOnError: true
-  displayName: Veracode static scan
-  inputs:
-    script: |
-      curl -fsS https://tools.veracode.com/veracode-cli/install | sh
-      ./veracode static scan ./app/target/verademo.war --verbose
-  env: 
-    VERACODE_API_KEY_ID: $(VERACODE_API_KEY_ID)
-    VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY_SECRET)
+# - task: CmdLine@2
+#   continueOnError: true
+#   displayName: Veracode static scan
+#   inputs:
+#     script: |
+#       curl -fsS https://tools.veracode.com/veracode-cli/install | sh
+#       ./veracode static scan ./app/target/verademo.war --verbose
+#   env: 
+#     VERACODE_API_KEY_ID: $(VERACODE_API_KEY_ID)
+#     VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY_SECRET)
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: 'results.json'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: '$(Build.SourcesDirectory)'
+#     Contents: 'results.json'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'results'
-    publishLocation: 'Container'
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'results'
+#     publishLocation: 'Container'
 
 
 # - task: Bash@3
@@ -115,6 +115,7 @@ steps:
     filepath: 'app/target/verademo.war'
     optargs: '-deleteincompletescan 2'
     failBuildIfUploadAndScanBuildStepFails: true
+    importResults: true
     maximumWaitTime: '30'
 
 #   # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'),
@@ -208,17 +209,17 @@ steps:
 
 
 
-- task: Veracode Flaw Importer@3
-  inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'vera_Azure'
-    veracodeAppProfile: 'Veracode-Jenkiens'
-    sandboxName: 'Free_Style'
-    scanType: 'Dynamic, Static'
-    importType: 'All Flaws'
-    workItemType: 'Bug'
-    area: 'Azure_vera integration'
-    overwriteAreaPathInWorkItemsOnImport: true
-    iterationPath: 'Azure_vera integration'
-    overwriteIterationPath: true
-    flawImportLimit: '1'
+# - task: Veracode Flaw Importer@3
+#   inputs:
+#     ConnectionDetailsSelection: 'Service Connection'
+#     AnalysisService: 'vera_Azure'
+#     veracodeAppProfile: 'Veracode-Jenkiens'
+#     sandboxName: 'Free_Style'
+#     scanType: 'Dynamic, Static'
+#     importType: 'All Flaws'
+#     workItemType: 'Bug'
+#     area: 'Azure_vera integration'
+#     overwriteAreaPathInWorkItemsOnImport: true
+#     iterationPath: 'Azure_vera integration'
+#     overwriteIterationPath: true
+#     flawImportLimit: '1'
