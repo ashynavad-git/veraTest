@@ -31,6 +31,7 @@ steps:
 #     script: 'echo -n $(VERACODE_API_KEY_ID) | xxd -ps'
 
 - task: CmdLine@2
+  continueOnError: true
   displayName: Veracode static scan
   inputs:
     script: |
@@ -39,6 +40,19 @@ steps:
   env: 
     VERACODE_API_KEY_ID: $(VERACODE_API_KEY_ID)
     VERACODE_API_KEY_SECRET: $(VERACODE_API_KEY_SECRET)
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: 'results.json'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'results'
+    publishLocation: 'Container'
+
 
 # - task: Bash@3
 #   displayName: 'Veracode pipeline scan'
